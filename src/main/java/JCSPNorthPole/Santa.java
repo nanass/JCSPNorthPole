@@ -18,13 +18,14 @@ public class Santa extends NorthPoleProcess {
     final List<ChannelOutput> consulting;
     final ChannelInput negotiating;
     final List<ChannelOutput> consulted;
+	final Bucket cookiesReady;
     final int deliveryTime = 5000;
     final int consultationTime = 2000;
 
     public Santa(ChannelOutput openForBusiness, ChannelOutput consultationOver, ChannelInput harness, ChannelOutput harnessed,
             ChannelOutput returned, List<ChannelOutput> unharnessList, AltingBarrier stable, AltingBarrier sleigh,
             AltingChannelInput consult, List<ChannelOutput> consulting, ChannelInput negotiating,
-            List<ChannelOutput> consulted, ChannelOutput print){
+            List<ChannelOutput> consulted, ChannelOutput print, Bucket cookiesReady){
 		super("Santa", print);
         this.openForBusiness = openForBusiness;
         this.consultationOver = consultationOver;
@@ -38,6 +39,7 @@ public class Santa extends NorthPoleProcess {
         this.consulting = consulting;
         this.negotiating = negotiating;
         this.consulted = consulted;
+		this.cookiesReady = cookiesReady;
     }
 
 	@Override
@@ -66,21 +68,38 @@ public class Santa extends NorthPoleProcess {
                     }
                     break;
                 case 1: //Elves
-                    Integer[] id2 = new Integer[9];
-                    id2[0] = (Integer)consult.read();
-                    log("Welcoming elves");
-                    for ( int i = 1; i <= 2; i++) { id2[i] = (Integer)consult.read(); }
-                    for ( int i = 0; i <= 2; i++) {
-                        consulting.get(id2[i]).write(1);
-                    }
-                    for ( int i = 0; i <= 2; i++) { negotiating.read(); }
-                    timer.sleep ( consultationTime + rng.nextInt(consultationTime));
-                    log("Showing elves out");
-                    for ( int i = 0; i <= 2; i++){
-                        consulted.get(id2[i]).write(1);
-                    }
-                    consultationOver.write(1);
-                    break;
+					Integer[] id2 = new Integer[9];
+					if (cookiesReady.holding() > 0) {
+						log("Eating Cookies");
+						timer.sleep(2000);
+						cookiesReady.flush();
+					}
+					id2[0] = (Integer)consult.read();
+					log("Welcoming elves");
+					if (cookiesReady.holding() > 0) {
+						log("Eating Cookies");
+						timer.sleep(2000);
+						cookiesReady.flush();
+						log("Welcoming elves");
+					}
+					for ( int i = 1; i <= 2; i++) { id2[i] = (Integer)consult.read(); }
+					for ( int i = 0; i <= 2; i++) {
+						consulting.get(id2[i]).write(1);
+					}
+					for ( int i = 0; i <= 2; i++) { negotiating.read(); }
+					timer.sleep ( consultationTime + rng.nextInt(consultationTime));
+					log("Showing elves out");
+					if (cookiesReady.holding() > 0) {
+						log("Eating Cookies");
+						timer.sleep(2000);
+						cookiesReady.flush();
+						log("Showing elves out");
+					}
+					for ( int i = 0; i <= 2; i++){
+						consulted.get(id2[i]).write(1);
+					}
+					consultationOver.write(1);
+					break;
             }
         }
     }
