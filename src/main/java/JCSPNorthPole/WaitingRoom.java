@@ -12,7 +12,7 @@ public class WaitingRoom extends NorthPoleProcess {
 
     public WaitingRoom( Bucket group, AltingChannelInput needToConsult, ChannelOutput joinGroup,
                         AltingChannelInput openForBusiness, AltingChannelInput consultationOver){
-        super("");
+        super("", null);
 		this.group = group;
         this.needToConsult = needToConsult;
         this.joinGroup = joinGroup;

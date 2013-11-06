@@ -16,8 +16,8 @@ public class Reindeer extends NorthPoleProcess{
 
     public Reindeer(String name, AltingBarrier stable, AltingBarrier sleigh,
 					ChannelOutput harness, ChannelInput harnessed,
-                    ChannelInput returned, ChannelInput unharness){
-        super(name);
+                    ChannelInput returned, ChannelInput unharness, ChannelOutput print){
+        super(name, print);
         this.stable = stable;
         this.sleigh = sleigh;
         this.harness = harness;

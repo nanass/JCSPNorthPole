@@ -24,8 +24,8 @@ public class Santa extends NorthPoleProcess {
     public Santa(ChannelOutput openForBusiness, ChannelOutput consultationOver, ChannelInput harness, ChannelOutput harnessed,
             ChannelOutput returned, List<ChannelOutput> unharnessList, AltingBarrier stable, AltingBarrier sleigh,
             AltingChannelInput consult, List<ChannelOutput> consulting, ChannelInput negotiating,
-            List<ChannelOutput> consulted){
-		super("Santa");
+            List<ChannelOutput> consulted, ChannelOutput print){
+		super("Santa", print);
         this.openForBusiness = openForBusiness;
         this.consultationOver = consultationOver;
         this.harness = harness;

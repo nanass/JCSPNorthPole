@@ -17,8 +17,8 @@ public class Elf extends NorthPoleProcess{
 
     public Elf(String name, int number, Bucket group, ChannelOutput needToConsult,
 			   ChannelInput joinGroup,ChannelOutput consult, ChannelInput consulting,
-			   ChannelOutput negotiating, ChannelInput consulted){
-        super(name);
+			   ChannelOutput negotiating, ChannelInput consulted, ChannelOutput print){
+        super(name, print);
         this.number = number;
         this.group = group;
         this.needToConsult = needToConsult;
