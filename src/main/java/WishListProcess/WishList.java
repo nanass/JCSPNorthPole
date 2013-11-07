@@ -1,4 +1,4 @@
-package JCSPNorthPole;
+package WishListProcess;
 
 import Util.Data;
 import org.jcsp.lang.*;

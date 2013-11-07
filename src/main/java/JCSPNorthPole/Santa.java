@@ -1,5 +1,6 @@
 package JCSPNorthPole;
 
+import Util.Data;
 import org.jcsp.lang.*;
 import java.util.List;
 import java.util.Random;
@@ -62,7 +63,7 @@ public class Santa extends NorthPoleProcess {
                     }
                     for ( int i = 0; i <= 8; i++){ harnessed.write(1); }
                     sleigh.sync();
-                    delivery.write(1);
+                    delivery.write(new Data());
                     timer.sleep ( deliveryTime + rng.nextInt(deliveryTime));
                     for ( int i = 0; i <= 8; i++){  returned.write(1); }
                     log("Unharnessing reindeer");

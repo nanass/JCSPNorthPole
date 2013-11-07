@@ -1,8 +1,6 @@
 package JCSPNorthPole;
 
-import Server.BroadcastOutMain;
-import Server.NettoServer;
-import Server.NorthPole;
+import Util.JCSPNetworkServiceIn;
 import org.jcsp.lang.*;
 import java.util.List;
 
@@ -11,7 +9,6 @@ public class Main {
 				Cupid, Donder, Blitzen, Ruldolph }
     public static void main(String[] args)
     {
-		NettoServer ns = new NettoServer();
         AltingBarrier [] stable = AltingBarrier.create(10);
         AltingBarrier [] sleigh = AltingBarrier.create(10);
         Bucket elfGroup = new Bucket();
@@ -54,9 +51,9 @@ public class Main {
                                         cookieRoom, deliveryNotice.out()),
                              new WaitingRoom(elfGroup,needToConsult.in(),joinGroup.out(),
                                         openForBusiness.in(),consultationOver.in()),
-							 new BroadcastOutMain(print.in()),
 							 new MrsClaus(cookieRoom, print.out()),
-                             new WishList(NorthPole.GetChannel.getInput(), deliveryNotice.in(), print.out())
+                             new JCSPNetworkServiceIn(print.in(), "5566"),
+                             new JCSPNetworkServiceIn(deliveryNotice.in(), "5564")
         };
 
         procs = Utils.concat(procs, reindeerProc);
