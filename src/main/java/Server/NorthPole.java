@@ -6,6 +6,10 @@ import org.atmosphere.config.service.ManagedService;
 import org.atmosphere.config.service.Message;
 import org.atmosphere.cpr.*;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.jcsp.lang.AltingChannelInput;
+import org.jcsp.lang.Any2OneChannel;
+import org.jcsp.lang.Channel;
+import org.jcsp.lang.ChannelOutput;
 
 import java.io.IOException;
 
@@ -22,7 +26,20 @@ public class NorthPole {
 
     @Message
     public String onMessage(String message) throws IOException {
-        return mapper.writeValueAsString(mapper.readValue(message, Data.class));
+        Data data = mapper.readValue(message, Data.class);
+        GetChannel.getOutput().write(data);
+        return mapper.writeValueAsString(data);
     }
+    public final static class GetChannel{
 
+    public static Any2OneChannel a2o = Channel.any2one();
+
+        public static AltingChannelInput getInput(){
+            return a2o.in();
+        }
+
+        public static ChannelOutput getOutput(){
+            return a2o.out();
+        }
+    }
 }

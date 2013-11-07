@@ -21,11 +21,12 @@ public class Santa extends NorthPoleProcess {
 	final Bucket cookiesReady;
     final int deliveryTime = 5000;
     final int consultationTime = 2000;
+    final ChannelOutput delivery;
 
     public Santa(ChannelOutput openForBusiness, ChannelOutput consultationOver, ChannelInput harness, ChannelOutput harnessed,
             ChannelOutput returned, List<ChannelOutput> unharnessList, AltingBarrier stable, AltingBarrier sleigh,
             AltingChannelInput consult, List<ChannelOutput> consulting, ChannelInput negotiating,
-            List<ChannelOutput> consulted, ChannelOutput print, Bucket cookiesReady){
+            List<ChannelOutput> consulted, ChannelOutput print, Bucket cookiesReady, ChannelOutput delivery){
 		super("Santa", print);
         this.openForBusiness = openForBusiness;
         this.consultationOver = consultationOver;
@@ -40,6 +41,7 @@ public class Santa extends NorthPoleProcess {
         this.negotiating = negotiating;
         this.consulted = consulted;
 		this.cookiesReady = cookiesReady;
+        this.delivery = delivery;
     }
 
 	@Override
@@ -60,6 +62,7 @@ public class Santa extends NorthPoleProcess {
                     }
                     for ( int i = 0; i <= 8; i++){ harnessed.write(1); }
                     sleigh.sync();
+                    delivery.write(1);
                     timer.sleep ( deliveryTime + rng.nextInt(deliveryTime));
                     for ( int i = 0; i <= 8; i++){  returned.write(1); }
                     log("Unharnessing reindeer");

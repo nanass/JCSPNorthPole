@@ -23,17 +23,13 @@ public class BroadcastOutMain implements CSProcess {
     public void run() {
         while (true) {
            Data data = (Data)in.read();
-            try {
-                Future br = b.broadcast(
-						mapper.writeValueAsString(
-								mapper.readValue(
-										"{\"message\":\"" + data.getMessage()+ "\","+
-										 "\"who\":\""+data.getWho()+
-										"\"}",
-								Data.class)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                Future br = b.broadcast("{\"message\": " + wrapInQuotes(data) + "," +
+										 "\"who\":\""+data.getWho()+"\","+
+                                         "\"type\":\"northPole\"}");
+
         }
+    }
+    private String wrapInQuotes(Data data){
+        return ("Delivery".equals(data.getType()) ? data.getMessage() : "\"" + data.getMessage()+ "\" " );
     }
 }
